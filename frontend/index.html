@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Upload File</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+
+<body>
+    <h1>Upload File</h1>
+    <form id="uploadForm" enctype="multipart/form-data">
+        <label for="gambarSatuInput">Gambar Satu:</label>
+        <input type="file" name="gambar_satu" id="gambarSatuInput" accept="image/jpeg, image/png" required>
+        <br><br>
+        <label for="gambarDuaInput">Gambar Dua:</label>
+        <input type="file" name="gambar_dua" id="gambarDuaInput" accept="image/jpeg, image/png" required>
+        <br><br>
+        <label for="dokumenSatuInput">Dokumen Satu:</label>
+        <input type="file" name="dokumen_satu" id="dokumenSatuInput" accept="application/pdf" required>
+        <br><br>
+        <label for="dokumenDuaInput">Dokumen Dua:</label>
+        <input type="file" name="dokumen_dua" id="dokumenDuaInput" accept="application/pdf" required>
+        <br><br>
+        <button type="submit">Upload</button>
+    </form>
+
+    <div id="response"></div>
+
+    <script>
+        $(document).ready(function () {
+            $('#uploadForm').submit(function (e) {
+                e.preventDefault();
+
+                var formData = new FormData(this);
+
+                $.ajax({
+                    url: 'http://localhost:8000/api/data/upload',
+                    type: 'POST',
+                    data: formData,
+                    processData: false,
+                    contentType: false,
+                    success: function (response) {
+                        $('#response').text(JSON.stringify(response));
+                    },
+                    error: function (xhr, status, error) {
+                        console.log(xhr.responseText);
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+
+</html>
